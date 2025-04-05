@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://clyq0flge8xkt"]
+
+[ext_resource type="Script" uid="uid://byhqhgp7f0djd" path="res://Scripts/EventPanelController.gd" id="1_u7p6f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7p6f"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="EventPanel" type="Node2D"]
+script = ExtResource("1_u7p6f")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 962.0
+offset_bottom = 602.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_u7p6f")
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 67.0
+offset_right = 812.0
+offset_bottom = 391.0
+text = "Description"
+
+[node name="Button1" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 460.0
+offset_right = 481.0
+offset_bottom = 491.0
+text = "Close"
+
+[node name="Button2" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 506.0
+offset_right = 481.0
+offset_bottom = 537.0
+text = "Close"
+
+[connection signal="pressed" from="Panel/Button1" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Panel/Button2" to="." method="_on_button_2_pressed"]

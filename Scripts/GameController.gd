@@ -9,6 +9,11 @@ var tileGridScene = preload("res://Scenes/TileGrid.tscn")
 
 @onready var lightLabel: Label = $Camera2D/LightLabel
 @onready var torchLabel: Label = $Camera2D/TorchLabel
+@onready var healthLabel: Label = $Camera2D/HealthLabel
+@onready var descriptionLabel : RichTextLabel = $Camera2D/DescriptionLabel
+
+@onready var eventLabel: Node2D = $Camera2D/EventPanel
+
 
 var previousPlayerTileId
 var playerTileId
@@ -17,11 +22,13 @@ var selectedTileStat
 
 
 func _ready() -> void:
+	populateEvents()
 	initialiseGrid()
 	var instance = tileGridScene.instantiate()
 	instance.populate()
 	instance.position = Vector2(10,10)
 	instance.tile_selected.connect(_on_Emitter_tile_selected)
+	eventLabel.event_completed.connect(_on_Event_Complete)
 	add_child(instance)
 	updateStatus()
 	_on_Emitter_tile_selected(0)
@@ -29,11 +36,16 @@ func _ready() -> void:
 	playerTileId = 0
 	clearAccessible(0)
 	setAccessible(0)
+	updateDescription()
 
 func _on_Emitter_tile_selected(id):
 	selectedTile = Global.tileDictionary[id]
 	selectedTileStat = Global.tileStatsDictionary[id]
+	updateDescription()
 	updateUI()
+	
+func _on_Event_Complete():
+	updateStatus()
 	
 func updateUI():
 	exploreButton.set_visible(false)
@@ -87,18 +99,29 @@ func setAccessible(id):
 func _on_explore_button_pressed() -> void:
 	if selectedTile:
 		Global.tileStatsDictionary[selectedTile.id].explored = true
+		var description = Global.tileStatsDictionary[selectedTile.id].description
+		var displayText = Events.Descriptions[description]
+		updateDescription()
 		selectedTile.exploreTile()
+		eventLabel.populateEvent(displayText,Global.tileStatsDictionary[selectedTile.id].event)
+		#eventLabel.setText(displayText)
+		eventLabel.set_visible(true)
+		updateDescription()
 		movePlayer()
 		updateUI()
 
 
 func _on_search_button_pressed() -> void:
+	Global.tileStatsDictionary[selectedTile.id].searched = true
+	selectedTile.setSearched(true)
 	updateLight()
+	updateUI()
 
 
 func _on_move_button_pressed() -> void:
 	if (Global.player.location_id != selectedTile.id):
 		movePlayer()
+		updateDescription()
 
 func movePlayer():
 		Global.player.location_id = selectedTile.id
@@ -122,6 +145,14 @@ func _input(event):
 			newY = maxY
 		camera.position = Vector2(camera.position.x,newY)
 
+func updateDescription():
+	if Global.tileStatsDictionary[selectedTile.id].explored:
+		var description = Global.tileStatsDictionary[selectedTile.id].description
+		var displayText = Events.Descriptions[description]
+		descriptionLabel.text = displayText
+	else:
+		descriptionLabel.text = "Unexplored"
+		
 func updateLight():
 	Global.player.light -= 1
 	if Global.player.light == 0:
@@ -132,6 +163,7 @@ func updateStatus():
 	if Global.player:
 		lightLabel.text = "Light: " + str(Global.player.light)
 		torchLabel.text = "Torches: " + str(Global.player.torches)
+		healthLabel.text = "Health: " + str(Global.player.health)
 	if Global.player.torches == 0:
 		pass
 		#End game
@@ -139,7 +171,7 @@ func updateStatus():
 func initialiseGrid():
 	var rng = RandomNumberGenerator.new()
 	var randSeed = randi() % 1000000
-
+	#randSeed = 96282
 	print(" Seed is %d " % randSeed)
 	rng.seed = randSeed
 	var id=0
@@ -148,7 +180,7 @@ func initialiseGrid():
 	for i in Global.rows:
 		var downs 
 		var downSlopes 
-		var minColumns
+		var minColumns = 5
 		var minCol = -1
 		var maxCol = -1
 		var downCols = []
@@ -275,6 +307,35 @@ func initialiseGrid():
 				newTileStat.id = id
 				newTileStat.explored = false
 				newTileStat.searched = false
+				if (id ==0):
+					newTileStat.explored = true
+					newTileStat.searched = true
+					newTileStat.rightE = true
+				elif (id ==1):
+					newTileStat.leftE = true
+					newTileStat.rightE = true
+				elif (id ==2):
+					newTileStat.leftE = true
+					newTileStat.rightE = true
+				elif (id ==3):
+					newTileStat.rightE = true
+					newTileStat.leftE = true
+					newTileStat.bottomE = true
+				elif (id ==4):
+					newTileStat.explored = false
+					newTileStat.leftE = true
+			if (id ==0):
+				newTileStat.description = 0
+				newTileStat.event = 0
+			if (id ==1):
+				newTileStat.description = 0
+				newTileStat.event = 0
+			if (id ==2):
+				newTileStat.description = 1
+				newTileStat.event = 1
+			else:
+				newTileStat.description = rng.randi_range(1,5)
+				newTileStat.event = 0
 			Global.tileStatsDictionary[id] = newTileStat
 			id += 1	
 	id=0
@@ -292,7 +353,11 @@ func initialiseGrid():
 						Global.tileStatsDictionary[id].topSlope = true
 			id += 1	
 			
-
+func populateEvents():
+	for n in Events.numEvents:
+		Global.events.push_back([Events.EventH1[n], Events.EventH2[n], Events.EventL1[n],
+						Events.EventL2[n],Events.EventT1[n],Events.EventT2[n],Events.EventOptions[n],
+						Events.EventOpt1[n], Events.EventOpt2[n], Events.EventDesc[n]])
 
 
 	

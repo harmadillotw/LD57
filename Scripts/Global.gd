@@ -7,4 +7,6 @@ var tileDictionary : Dictionary[int,Node2D]
 var tileStatsDictionary : Dictionary[int,TileStats]
 var tileCount = 0
 
+var events = []
+
 var player

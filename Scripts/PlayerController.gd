@@ -8,6 +8,7 @@ var gridWSpace = 5
 var gridHSpace = 5
 @export var torches = 5
 @export var light = 5
+@export var health = 20
 
 func updatePosition():
 	var i = location_id/5

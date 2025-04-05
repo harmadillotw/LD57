@@ -13,3 +13,6 @@ var rightE = false
 var leftE = false
 var bottomSlope = false
 var topSlope = false
+
+var description = 0
+var event = 0

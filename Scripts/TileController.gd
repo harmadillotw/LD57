@@ -52,6 +52,7 @@ func setExplored(show):
 	explored = show
 func setSearched(show):
 	searched = show
+	
 func exploreTile():
 	explored = true
 	get_node("Explored2D").set_visible(true)
