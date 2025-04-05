@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TileStats" load_steps=2 format=3 uid="uid://ch23w0inkravj"]
+
+[ext_resource type="Script" uid="uid://cp1o0fomlw2nm" path="res://Scripts/TileResource.gd" id="1_fbmc2"]
+
+[resource]
+script = ExtResource("1_fbmc2")
+id = 0
+explored = false
+searched = false
+metadata/_custom_type_script = "uid://cp1o0fomlw2nm"

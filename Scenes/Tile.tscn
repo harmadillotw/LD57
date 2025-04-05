@@ -1,0 +1,58 @@
+[gd_scene load_steps=12 format=3 uid="uid://bau7lcws8w60e"]
+
+[ext_resource type="Texture2D" uid="uid://cqpcft8i8vhj6" path="res://Images/tile_accessible.jpg" id="1_iof5j"]
+[ext_resource type="Script" uid="uid://b335orpto7gaq" path="res://Scripts/TileController.gd" id="1_r4md0"]
+[ext_resource type="Script" uid="uid://4c3hlw3smh0i" path="res://Scripts/TileArea2d.gd" id="2_iof5j"]
+[ext_resource type="Texture2D" uid="uid://bus8anj8p16sx" path="res://Images/tile_blank.jpg" id="2_r4md0"]
+[ext_resource type="Texture2D" uid="uid://ci6voajw2hrun" path="res://Images/tile_hidden.jpg" id="3_ctyow"]
+[ext_resource type="Texture2D" uid="uid://2o12bvbo478s" path="res://Images/tile_base_top.png" id="4_jvlbh"]
+[ext_resource type="Texture2D" uid="uid://bmchrsdg5tety" path="res://Images/tile_base_bottom.png" id="5_6r1mx"]
+[ext_resource type="Texture2D" uid="uid://ch7hcasabgj0v" path="res://Images/tile_base_right.png" id="6_ctyow"]
+[ext_resource type="Texture2D" uid="uid://c66eqbr1edihx" path="res://Images/tile_base_left.png" id="7_5y5lw"]
+[ext_resource type="Texture2D" uid="uid://nr2fmerx6dkk" path="res://Images/tile_highlight.png" id="8_6r1mx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4md0"]
+size = Vector2(140, 88)
+
+[node name="Tile" type="Node2D"]
+script = ExtResource("1_r4md0")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_iof5j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_r4md0")
+
+[node name="SpriteUnexplored" type="Sprite2D" parent="."]
+texture = ExtResource("3_ctyow")
+
+[node name="SpriteAccessible" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_iof5j")
+
+[node name="Explored2D" type="Node2D" parent="."]
+visible = false
+
+[node name="SpriteExplored" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("2_r4md0")
+
+[node name="SpriteTop" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("4_jvlbh")
+
+[node name="SpriteBottom" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("5_6r1mx")
+
+[node name="SpriteRight" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("6_ctyow")
+
+[node name="SpriteLeft" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("7_5y5lw")
+
+[node name="SpriteHighlight" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("8_6r1mx")

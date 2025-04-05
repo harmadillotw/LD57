@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2g03od2vctnh"]
+
+[ext_resource type="Script" uid="uid://euvier2p6q6t" path="res://Scripts/TileGridController.gd" id="1_aaup4"]
+
+[node name="TileGrid" type="Node2D"]
+script = ExtResource("1_aaup4")

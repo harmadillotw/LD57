@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://b04jkm5ht1kri"]
+
+[ext_resource type="Script" uid="uid://dnded3vnu0mv6" path="res://Scripts/GameController.gd" id="1_idj7w"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_idj7w")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(480, 300)
+
+[node name="MoveButton" type="Button" parent="Camera2D"]
+offset_left = 325.0
+offset_top = -46.0
+offset_right = 392.0
+offset_bottom = -15.0
+text = "Move"
+
+[node name="SearchButton" type="Button" parent="Camera2D"]
+offset_left = 323.0
+offset_top = -99.0
+offset_right = 390.0
+offset_bottom = -68.0
+text = "Search"
+
+[node name="ExploreButton" type="Button" parent="Camera2D"]
+offset_left = 323.0
+offset_top = -151.0
+offset_right = 390.0
+offset_bottom = -120.0
+text = "Explore"
+
+[node name="LightLabel" type="Label" parent="Camera2D"]
+offset_left = 329.0
+offset_top = -271.0
+offset_right = 372.0
+offset_bottom = -248.0
+text = "Light:"
+
+[node name="TorchLabel" type="Label" parent="Camera2D"]
+offset_left = 329.0
+offset_top = -202.0
+offset_right = 378.0
+offset_bottom = -179.0
+text = "Torchs:"
+
+[connection signal="pressed" from="Camera2D/MoveButton" to="." method="_on_move_button_pressed"]
+[connection signal="pressed" from="Camera2D/SearchButton" to="." method="_on_search_button_pressed"]
+[connection signal="pressed" from="Camera2D/ExploreButton" to="." method="_on_explore_button_pressed"]
