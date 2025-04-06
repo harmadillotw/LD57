@@ -13,6 +13,7 @@ var tileGridScene = preload("res://Scenes/TileGrid.tscn")
 @onready var descriptionLabel : RichTextLabel = $Camera2D/DescriptionLabel
 
 @onready var eventLabel: Node2D = $Camera2D/EventPanel
+@onready var descendLabel: Node2D = $Camera2D/DescendPanel
 
 
 var previousPlayerTileId
@@ -29,6 +30,7 @@ func _ready() -> void:
 	instance.position = Vector2(10,10)
 	instance.tile_selected.connect(_on_Emitter_tile_selected)
 	eventLabel.event_completed.connect(_on_Event_Complete)
+	descendLabel.decend_completed.connect(_on_Event_Complete)
 	add_child(instance)
 	updateStatus()
 	_on_Emitter_tile_selected(0)
@@ -48,18 +50,23 @@ func _on_Event_Complete():
 	updateStatus()
 	
 func updateUI():
-	exploreButton.set_visible(false)
-	searchButton.set_visible(false)
-	moveButton.set_visible(false)
+	#exploreButton.set_visible(false)
+	exploreButton.disabled = true
+	#searchButton.set_visible(false)
+	searchButton.disabled = true
+	#moveButton.set_visible(false)
+	moveButton.disabled = true
 	if (selectedTileStat.reachable):
 		if (Global.player.location_id == selectedTile.id):
 			if (selectedTile.explored) && (!selectedTile.searched):
-				searchButton.set_visible(true)
+				#searchButton.set_visible(true)
+				searchButton.disabled = false
 		if !selectedTile.explored && selectedTileStat.accessible:
-			exploreButton.set_visible(true)
-			
+			#exploreButton.set_visible(true)
+			exploreButton.disabled = false
 		if ((selectedTile.explored) && Global.player.location_id != selectedTile.id) && selectedTileStat.accessible:
-			moveButton.set_visible(true)
+			#moveButton.set_visible(true)
+			moveButton.disabled = false
 
 func clearAccessible(id):
 	if (id > 0):
@@ -98,14 +105,24 @@ func setAccessible(id):
 		
 func _on_explore_button_pressed() -> void:
 	if selectedTile:
+		var doDescent = false
+		if (Global.player.location_id > Global.columns) && (Global.player.location_id == (selectedTile.id - Global.columns)):
+			if (Global.tileStatsDictionary[Global.player.location_id].bottomE):
+				doDescent = true
 		Global.tileStatsDictionary[selectedTile.id].explored = true
 		var description = Global.tileStatsDictionary[selectedTile.id].description
-		var displayText = Events.Descriptions[description]
+		if 	doDescent:
+			descendLabel.setup()
+			descendLabel.set_visible(true)
+		else:
+			var displayText = Events.Descriptions[description]
+			eventLabel.populateEvent(displayText,Global.tileStatsDictionary[selectedTile.id].event)
+			#eventLabel.setText(displayText)
+			eventLabel.set_visible(true)
+		
 		updateDescription()
 		selectedTile.exploreTile()
-		eventLabel.populateEvent(displayText,Global.tileStatsDictionary[selectedTile.id].event)
-		#eventLabel.setText(displayText)
-		eventLabel.set_visible(true)
+		
 		updateDescription()
 		movePlayer()
 		updateUI()
@@ -324,18 +341,113 @@ func initialiseGrid():
 				elif (id ==4):
 					newTileStat.explored = false
 					newTileStat.leftE = true
+			## assign descriptions
 			if (id ==0):
 				newTileStat.description = 0
-				newTileStat.event = 0
 			if (id ==1):
-				newTileStat.description = 0
-				newTileStat.event = 0
+				newTileStat.description = 1
 			if (id ==2):
 				newTileStat.description = 1
-				newTileStat.event = 1
 			else:
-				newTileStat.description = rng.randi_range(1,5)
-				newTileStat.event = 0
+				var rolled = rng.randi_range(1,100)
+				if (i > 20):
+					match rolled:
+						1,2,3,4,5,6,7,8,9,10:
+							newTileStat.description = 1
+						11,12,13,14,15,16,17,18,19,20:
+							newTileStat.description = 1
+						21,22,23,24,25:
+							newTileStat.description = 2
+						31,32,33,34,35,36,37,38,39,40:
+							newTileStat.description = 1
+						41,42,43,44,45,46,47,48,49,50:
+							newTileStat.description = 1
+						51,52,53,54,55:
+							newTileStat.description = 5
+						56,57,58,59,60:
+							newTileStat.description = 6
+						61,62,63,64,65:
+							newTileStat.description = 7
+						66,67,68,69,70:
+							newTileStat.description = 8
+						71,72,73,74,75:
+							newTileStat.description = 9
+						76,77,78,79,80:
+							newTileStat.description = 10
+						81,82,83,84,85:
+							newTileStat.description = 11
+						86,87,88,89,90:
+							newTileStat.description = 12
+						91,92,93,94,95:
+							newTileStat.description = 13
+						96,97,98,99,100:
+							newTileStat.description = 14
+				elif (i > 30):
+					match rolled:
+						1,2,3,4,5,6,7,8,9,10:
+							newTileStat.description = 3
+						11,12,13,14,15,16,17,18,19,20:
+							newTileStat.description = 3
+						21,22,23,24,25:
+							newTileStat.description = 4
+						31,32,33,34,35,36,37,38,39,40:
+							newTileStat.description = 4
+						41,42,43,44,45,46,47,48,49,50:
+							newTileStat.description = 3
+						51,52,53,54,55:
+							newTileStat.description = 5
+						56,57,58,59,60:
+							newTileStat.description = 6
+						61,62,63,64,65:
+							newTileStat.description = 7
+						66,67,68,69,70:
+							newTileStat.description = 8
+						71,72,73,74,75:
+							newTileStat.description = 9
+						76,77,78,79,80:
+							newTileStat.description = 10
+						81,82,83,84,85:
+							newTileStat.description = 11
+						86,87,88,89,90:
+							newTileStat.description = 12
+						91,92,93,94,95:
+							newTileStat.description = 13
+						96,97,98,99,100:
+							newTileStat.description = 14
+				else:
+					match rolled:
+						1,2,3,4,5,6,7,8,9,10:
+							newTileStat.description = 1
+						11,12,13,14,15,16,17,18,19,20:
+							newTileStat.description = 2
+						21,22,23,24,25:
+							newTileStat.description = 3
+						31,32,33,34,35,36,37,38,39,40:
+							newTileStat.description = 4
+						41,42,43,44,45,46,47,48,49,50:
+							newTileStat.description = 1
+						51,52,53,54,55:
+							newTileStat.description = 5
+						56,57,58,59,60:
+							newTileStat.description = 6
+						61,62,63,64,65:
+							newTileStat.description = 7
+						66,67,68,69,70:
+							newTileStat.description = 8
+						71,72,73,74,75:
+							newTileStat.description = 9
+						76,77,78,79,80:
+							newTileStat.description = 10
+						81,82,83,84,85:
+							newTileStat.description = 11
+						86,87,88,89,90:
+							newTileStat.description = 12
+						91,92,93,94,95:
+							newTileStat.description = 13
+						96,97,98,99,100:
+							newTileStat.description = 14
+			## assign events
+			newTileStat.event = 13
 			Global.tileStatsDictionary[id] = newTileStat
 			id += 1	
 	id=0

@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://lo5ujip16pmb"]
+
+[ext_resource type="Script" uid="uid://eh7lp4w4het8" path="res://Scripts/DecendPanelController.gd" id="1_octcu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ts6da"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="DescendPanel" type="Node2D"]
+top_level = true
+script = ExtResource("1_octcu")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 984.0
+offset_bottom = 623.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ts6da")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 67.0
+offset_right = 812.0
+offset_bottom = 264.0
+text = "The descent before you looks near vertical. The way looks treacherous but the walls are rough and you can see possible hand holds. You look around and find suitable anchor points for ropes that could aid your climb.
+Should you use ropes to safely descend or risk it and free climb?
+"
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 387.0
+offset_top = 367.0
+offset_right = 559.0
+offset_bottom = 398.0
+text = "Free climb ( risky)"
+
+[node name="Button2" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 387.0
+offset_top = 308.0
+offset_right = 559.0
+offset_bottom = 339.0
+text = "Rappel down (1 rope)"
+
+[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Panel/Button2" to="." method="_on_button_2_pressed"]

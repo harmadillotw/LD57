@@ -6,6 +6,7 @@ var gridWidth = 140
 var gridHeight = 88
 var gridWSpace = 5
 var gridHSpace = 5
+@export var rope = 10
 @export var torches = 5
 @export var light = 5
 @export var health = 20

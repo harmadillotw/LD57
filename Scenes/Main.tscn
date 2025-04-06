@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b04jkm5ht1kri"]
+[gd_scene load_steps=4 format=3 uid="uid://b04jkm5ht1kri"]
 
 [ext_resource type="Script" uid="uid://dnded3vnu0mv6" path="res://Scripts/GameController.gd" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://clyq0flge8xkt" path="res://Scenes/EventPanel.tscn" id="2_idj7w"]
+[ext_resource type="PackedScene" uid="uid://lo5ujip16pmb" path="res://Scenes/DescendPanel.tscn" id="3_kln2b"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_idj7w")
@@ -53,15 +54,28 @@ text = "Health:"
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="Camera2D"]
 offset_left = 266.0
-offset_top = 75.0
+offset_top = 123.0
 offset_right = 460.0
 offset_bottom = 265.0
 text = "Description"
 
 [node name="EventPanel" parent="Camera2D" instance=ExtResource("2_idj7w")]
 visible = false
-top_level = true
-position = Vector2(1, 0)
+z_index = 1
+position = Vector2(-490, -309)
+
+[node name="DescendPanel" parent="Camera2D" instance=ExtResource("3_kln2b")]
+visible = false
+top_level = false
+z_index = 1
+position = Vector2(-475, -297)
+
+[node name="Label" type="Label" parent="Camera2D"]
+offset_left = 265.0
+offset_top = 90.0
+offset_right = 359.0
+offset_bottom = 113.0
+text = "Description:"
 
 [connection signal="pressed" from="Camera2D/MoveButton" to="." method="_on_move_button_pressed"]
 [connection signal="pressed" from="Camera2D/SearchButton" to="." method="_on_search_button_pressed"]
