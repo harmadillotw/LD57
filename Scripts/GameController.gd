@@ -2,12 +2,22 @@ extends Node2D
 
 var tileGridScene = preload("res://Scenes/TileGrid.tscn")
 
+var heartFull : Texture = preload("res://Images/heart_full.png")
+var heart3Q = preload("res://Images/heart_3q.png")
+var heartHalf = preload("res://Images/heart_half.png")
+var heart1Q = preload("res://Images/heart_1q.png")
+
+var torchFull : Texture = preload("res://Images/torch_full.png")
+var torch3Q = preload("res://Images/torch_3q.png")
+var torchHalf = preload("res://Images/torch_half.png")
+var torch1Q = preload("res://Images/torch_1q.png")
+
 @onready var exploreButton: Button = $Camera2D/ExploreButton
 @onready var searchButton: Button = $Camera2D/SearchButton
 @onready var moveButton: Button =  $Camera2D/MoveButton
 @onready var camera: Camera2D = $Camera2D
 
-@onready var lightLabel: Label = $Camera2D/LightLabel
+@onready var seedLabel: Label = $Camera2D/SeedLabel
 @onready var torchLabel: Label = $Camera2D/TorchLabel
 @onready var healthLabel: Label = $Camera2D/HealthLabel
 @onready var descriptionLabel : RichTextLabel = $Camera2D/DescriptionLabel
@@ -15,6 +25,17 @@ var tileGridScene = preload("res://Scenes/TileGrid.tscn")
 @onready var eventLabel: Node2D = $Camera2D/EventPanel
 @onready var descendLabel: Node2D = $Camera2D/DescendPanel
 
+@onready var heart1: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect1
+@onready var heart2: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect2
+@onready var heart3: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect3
+@onready var heart4: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect4
+@onready var heart5: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect5
+
+@onready var torch1: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect1
+@onready var torch2: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect2
+@onready var torch3: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect3
+@onready var torch4: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect4
+@onready var torch5: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect5
 
 var previousPlayerTileId
 var playerTileId
@@ -30,7 +51,7 @@ func _ready() -> void:
 	instance.position = Vector2(10,10)
 	instance.tile_selected.connect(_on_Emitter_tile_selected)
 	eventLabel.event_completed.connect(_on_Event_Complete)
-	descendLabel.decend_completed.connect(_on_Event_Complete)
+	descendLabel.decend_completed.connect(_on_Descent_Complete)
 	add_child(instance)
 	updateStatus()
 	_on_Emitter_tile_selected(0)
@@ -49,10 +70,15 @@ func _on_Emitter_tile_selected(id):
 func _on_Event_Complete():
 	updateStatus()
 	
+func _on_Descent_Complete(ropes):
+	if ropes:
+		selectedTile.setRopes(true)
+	updateStatus()
+	
 func updateUI():
 	#exploreButton.set_visible(false)
 	exploreButton.disabled = true
-	#searchButton.set_visible(false)
+	searchButton.set_visible(false)
 	searchButton.disabled = true
 	#moveButton.set_visible(false)
 	moveButton.disabled = true
@@ -94,11 +120,19 @@ func setAccessible(id):
 		Global.tileStatsDictionary[id-Global.columns].accessible = true
 		if !Global.tileStatsDictionary[id-Global.columns].explored:
 			Global.tileDictionary[id-Global.columns].setAccessible(true)
+	if (id > Global.columns) && Global.tileStatsDictionary[id].topSlope:
+		Global.tileStatsDictionary[id-Global.columns].accessible = true
+		if !Global.tileStatsDictionary[id-Global.columns].explored:
+			Global.tileDictionary[id-Global.columns].setAccessible(true)
 	if (id < Global.columns * Global.rows) && Global.tileStatsDictionary[id].rightE:
 		Global.tileStatsDictionary[id+1].accessible = true
 		if !Global.tileStatsDictionary[id+1].explored:
 			Global.tileDictionary[id+1].setAccessible(true)
 	if ( id < ( Global.columns * (Global.rows -1)))&& Global.tileStatsDictionary[id].bottomE:
+		Global.tileStatsDictionary[id+Global.columns].accessible = true	
+		if !Global.tileStatsDictionary[id+Global.columns].explored:
+			Global.tileDictionary[id+Global.columns].setAccessible(true)
+	if ( id < ( Global.columns * (Global.rows -1)))&& Global.tileStatsDictionary[id].bottomSlope:
 		Global.tileStatsDictionary[id+Global.columns].accessible = true	
 		if !Global.tileStatsDictionary[id+Global.columns].explored:
 			Global.tileDictionary[id+Global.columns].setAccessible(true)
@@ -151,17 +185,23 @@ func movePlayer():
 		
 func _input(event):
 	if event.is_action_pressed("camera_up"):
-		var newY = camera.position.y-90
-		if (newY < 300 ):
-			newY = 300
-		camera.position = Vector2(camera.position.x,newY)
+		moveCameraUp()
 	if event.is_action_pressed("camera_down"):
-		var newY = camera.position.y+90
-		var maxY = (Global.rows * 90)
-		if (newY > maxY ):
-			newY = maxY
-		camera.position = Vector2(camera.position.x,newY)
+		moveCameraDown()
 
+func moveCameraDown():
+	var newY = camera.position.y+90
+	var maxY = (Global.rows * 90)
+	if (newY > maxY ):
+		newY = maxY
+	camera.position = Vector2(camera.position.x,newY)
+	
+func moveCameraUp():
+	var newY = camera.position.y-90
+	if (newY < 300 ):
+		newY = 300
+	camera.position = Vector2(camera.position.x,newY)
+	
 func updateDescription():
 	if Global.tileStatsDictionary[selectedTile.id].explored:
 		var description = Global.tileStatsDictionary[selectedTile.id].description
@@ -174,22 +214,176 @@ func updateLight():
 	Global.player.light -= 1
 	if Global.player.light == 0:
 		Global.player.torches -= 1
-		Global.player.light = 5
+		Global.player.light = 4
 	updateStatus()
 func updateStatus():
 	if Global.player:
-		lightLabel.text = "Light: " + str(Global.player.light)
-		torchLabel.text = "Torches: " + str(Global.player.torches)
-		healthLabel.text = "Health: " + str(Global.player.health)
+		#lightLabel.text = "Light: " + str(Global.player.light)
+		#torchLabel.text = "Torches: " + str(Global.player.torches)
+		updateHealth()
+		updateTorch()
+		#healthLabel.text = "Health: " + str(Global.player.health)
 	if Global.player.torches == 0:
 		pass
 		#End game
+		
+func updateHealth():
+	var health = Global.player.health
+	#healthLabel.text = "" + str(health)
+	heart1.set_visible(false)
+	heart1.texture = heartFull
+	heart2.set_visible(false)
+	heart2.texture = heartFull
+	heart3.set_visible(false)
+	heart3.texture = heartFull
+	heart4.set_visible(false)
+	heart4.texture = heartFull
+	heart5.set_visible(false)
+	heart5.texture = heartFull
+	if health >= 4:
+		heart1.set_visible(true)
+	else:
+		displayHeartParts(health,heart1)
+		return
+	if health >= 8:
+		heart2.set_visible(true)
+	else:
+		displayHeartParts(health,heart2)
+		return	
+	if health >= 12:
+		heart3.set_visible(true)
+	else:
+		displayHeartParts(health,heart3)
+		return
+	if health >= 16:
+		heart4.set_visible(true)
+	else:
+		displayHeartParts(health,heart4)
+		return
+	if health == 20:
+		heart5.set_visible(true)
+	elif health > 16:
+		displayHeartParts(health,heart5)
+		return
+
+func displayHeartParts(health, heart:TextureRect):
+	var part = health % 4
+	match part:
+		1:
+			heart.texture = heart1Q
+			heart.set_visible(true)
+		2:
+			heart.texture = heartHalf
+			heart.set_visible(true)
+		3:
+			heart.texture = heart3Q
+			heart.set_visible(true)
+
+func updateTorch():
+	var torches = Global.player.torches
+	var light = Global.player.light
+	#torchLabel.text = "Torches: " + str(torches)
+	#lightLabel.text = "Light: "  + str(light)
+	match torches:
+		1:
+			if (light == 4):
+				torch1.set_visible(true)
+				torch1.texture = torchFull
+			elif (light > 0):
+				torch1.set_visible(true)
+				displayTorchParts(light,torch1)	
+			else:
+				torch1.set_visible(false)
+			torch2.set_visible(false)
+			torch3.set_visible(false)
+			torch4.set_visible(false)
+			torch5.set_visible(false)
+		2:
+			torch1.set_visible(true)
+			torch1.texture = torchFull
+			if (light == 4):
+				torch2.set_visible(true)
+				torch2.texture = torchFull
+			elif (light > 0):
+				torch2.set_visible(true)
+				displayTorchParts(light,torch2)	
+			else:
+				torch1.set_visible(false)
+			torch3.set_visible(false)
+			torch4.set_visible(false)
+			torch5.set_visible(false)
+		3:
+			torch1.set_visible(true)
+			torch1.texture = torchFull
+			torch2.set_visible(true)
+			torch2.texture = torchFull
+			if (light == 4):
+				torch3.set_visible(true)
+				torch3.texture = torchFull
+			elif (light > 0):
+				torch3.set_visible(true)
+				displayTorchParts(light,torch3)	
+			else:
+				torch1.set_visible(false)
+			torch4.set_visible(false)
+			torch5.set_visible(false)
+		4:
+			torch1.set_visible(true)
+			torch1.texture = torchFull
+			torch2.set_visible(true)
+			torch2.texture = torchFull
+			torch3.set_visible(true)
+			torch3.texture = torchFull
+			if (light == 4):
+				torch4.set_visible(true)
+				torch4.texture = torchFull
+			elif (light > 0):
+				torch4.set_visible(true)
+				displayTorchParts(light,torch4)	
+			else:
+				torch1.set_visible(false)
+			torch5.set_visible(false)
+		5:
+			torch1.set_visible(true)
+			torch1.texture = torchFull
+			torch2.set_visible(true)
+			torch2.texture = torchFull
+			torch3.set_visible(true)
+			torch3.texture = torchFull
+			torch4.set_visible(true)
+			torch4.texture = torchFull
+			if (light == 4):
+				torch5.set_visible(true)
+				torch5.texture = torchFull
+			elif (light > 0):
+				torch5.set_visible(true)
+				displayTorchParts(light,torch5)	
+			else:
+				torch1.set_visible(false)
+
+func displayTorchParts(light, torch:TextureRect):
+	var part = light % 4
+	match part:
+		1:
+			torch.texture = torch1Q
+			torch.set_visible(true)
+		2:
+			torch.texture = torchHalf
+			torch.set_visible(true)
+		3:
+			torch.texture = torch3Q
+			torch.set_visible(true)
 ### initialise grid ###
 func initialiseGrid():
 	var rng = RandomNumberGenerator.new()
 	var randSeed = randi() % 1000000
 	#randSeed = 96282
+	
+	if Global.gameSeed != 0:
+		randSeed = Global.gameSeed
+	Global.gameSeed = randSeed
 	print(" Seed is %d " % randSeed)
+	seedLabel.text = "#" + str(randSeed)
 	rng.seed = randSeed
 	var id=0
 	var preMaxCol = 3
@@ -307,14 +501,14 @@ func initialiseGrid():
 				elif (id ==3):
 					newTileStat.rightE = true
 					newTileStat.leftE = true
-					newTileStat.bottomE = true
+					newTileStat.bottomSlope = true
 				elif (id ==4):
 					newTileStat.explored = false
 					newTileStat.leftE = true
 				else:
 					
 					if(downSlopeCols.has(j) == true):
-						newTileStat.bottomE = true
+						newTileStat.bottomSlope = true
 						#newTileStat.leftE = true
 					if(downCols.has(j)== true):
 						newTileStat.bottomE = true
@@ -337,7 +531,7 @@ func initialiseGrid():
 				elif (id ==3):
 					newTileStat.rightE = true
 					newTileStat.leftE = true
-					newTileStat.bottomE = true
+					newTileStat.bottomSlope = true
 				elif (id ==4):
 					newTileStat.explored = false
 					newTileStat.leftE = true
@@ -447,7 +641,18 @@ func initialiseGrid():
 						96,97,98,99,100:
 							newTileStat.description = 14
 			## assign events
-			newTileStat.event = 13
+			newTileStat.event = 0
+			
+			## set tiles
+			newTileStat.Tright = rng.randi_range(0,2)
+			newTileStat.Tleft = rng.randi_range(0,2)
+			newTileStat.Tbottom = rng.randi_range(0,2)
+			newTileStat.Ttop = rng.randi_range(0,2)
+			newTileStat.Ttr = rng.randi_range(0,2)
+			newTileStat.Ttl = rng.randi_range(0,2)
+			newTileStat.Tbr = rng.randi_range(0,2)
+			newTileStat.Tbl = rng.randi_range(0,2)
+			##save tile stats
 			Global.tileStatsDictionary[id] = newTileStat
 			id += 1	
 	id=0
@@ -473,3 +678,11 @@ func populateEvents():
 
 
 	
+
+
+func _on_up_button_pressed() -> void:
+	moveCameraUp()
+
+
+func _on_down_button_pressed() -> void:
+	moveCameraDown()

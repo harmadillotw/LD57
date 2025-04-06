@@ -10,3 +10,5 @@ var tileCount = 0
 var events = []
 
 var player
+
+var gameSeed := 0

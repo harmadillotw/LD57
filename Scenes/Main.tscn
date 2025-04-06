@@ -1,8 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://b04jkm5ht1kri"]
+[gd_scene load_steps=14 format=3 uid="uid://b04jkm5ht1kri"]
 
 [ext_resource type="Script" uid="uid://dnded3vnu0mv6" path="res://Scripts/GameController.gd" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://clyq0flge8xkt" path="res://Scenes/EventPanel.tscn" id="2_idj7w"]
 [ext_resource type="PackedScene" uid="uid://lo5ujip16pmb" path="res://Scenes/DescendPanel.tscn" id="3_kln2b"]
+[ext_resource type="Texture2D" uid="uid://kcum4ng1g0dx" path="res://Images/heart_full.png" id="4_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://cal6a5qunt6sp" path="res://Images/torch_full.png" id="5_pbw6q"]
+[ext_resource type="Texture2D" uid="uid://bp6ixcohc8afk" path="res://Images/up.png" id="6_jw32o"]
+[ext_resource type="Texture2D" uid="uid://d4b6o3qr3nm2n" path="res://Images/down.png" id="7_50glp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbw6q"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jw32o"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gob"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50glp"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vy5pj"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bmxlf"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_idj7w")
@@ -10,53 +32,67 @@ script = ExtResource("1_idj7w")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(480, 300)
 
+[node name="Panel" type="Panel" parent="Camera2D"]
+offset_left = 257.0
+offset_top = -291.0
+offset_right = 472.0
+offset_bottom = 292.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbw6q")
+
 [node name="MoveButton" type="Button" parent="Camera2D"]
-offset_left = 321.0
-offset_top = 13.0
-offset_right = 388.0
-offset_bottom = 44.0
+offset_left = 370.0
+offset_top = -279.0
+offset_right = 437.0
+offset_bottom = -248.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_jw32o")
+theme_override_styles/normal = SubResource("StyleBoxFlat_v1gob")
 text = "Move"
 
 [node name="SearchButton" type="Button" parent="Camera2D"]
-offset_left = 319.0
-offset_top = -40.0
-offset_right = 386.0
-offset_bottom = -9.0
+offset_left = 537.0
+offset_top = -62.0
+offset_right = 604.0
+offset_bottom = -31.0
 text = "Search"
 
 [node name="ExploreButton" type="Button" parent="Camera2D"]
-offset_left = 319.0
-offset_top = -92.0
-offset_right = 386.0
-offset_bottom = -61.0
+offset_left = 296.0
+offset_top = -279.0
+offset_right = 363.0
+offset_bottom = -248.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_50glp")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vy5pj")
 text = "Explore"
 
-[node name="LightLabel" type="Label" parent="Camera2D"]
-offset_left = 329.0
-offset_top = -271.0
-offset_right = 372.0
-offset_bottom = -248.0
-text = "Light:"
+[node name="SeedLabel" type="Label" parent="Camera2D"]
+offset_left = 391.0
+offset_top = 269.0
+offset_right = 469.0
+offset_bottom = 289.0
+theme_override_font_sizes/font_size = 14
+text = "#1000000"
 
 [node name="TorchLabel" type="Label" parent="Camera2D"]
-offset_left = 329.0
-offset_top = -202.0
-offset_right = 378.0
-offset_bottom = -179.0
-text = "Torchs:"
+offset_left = 337.0
+offset_top = -146.0
+offset_right = 394.0
+offset_bottom = -123.0
+text = "Torchs"
 
 [node name="HealthLabel" type="Label" parent="Camera2D"]
-offset_left = 329.0
-offset_top = -154.0
-offset_right = 386.0
-offset_bottom = -131.0
-text = "Health:"
+offset_left = 339.0
+offset_top = -226.0
+offset_right = 396.0
+offset_bottom = -203.0
+text = "Health"
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="Camera2D"]
-offset_left = 266.0
-offset_top = 123.0
-offset_right = 460.0
-offset_bottom = 265.0
+offset_left = 267.0
+offset_top = -23.0
+offset_right = 461.0
+offset_bottom = 119.0
 text = "Description"
 
 [node name="EventPanel" parent="Camera2D" instance=ExtResource("2_idj7w")]
@@ -71,12 +107,82 @@ z_index = 1
 position = Vector2(-475, -297)
 
 [node name="Label" type="Label" parent="Camera2D"]
-offset_left = 265.0
-offset_top = 90.0
-offset_right = 359.0
-offset_bottom = 113.0
+offset_left = 266.0
+offset_top = -56.0
+offset_right = 360.0
+offset_bottom = -33.0
 text = "Description:"
+
+[node name="HealthHBoxContainer" type="HBoxContainer" parent="Camera2D"]
+offset_left = 283.0
+offset_top = -193.0
+offset_right = 462.0
+offset_bottom = -163.0
+
+[node name="TextureRect1" type="TextureRect" parent="Camera2D/HealthHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_rgh2o")
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/HealthHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_rgh2o")
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/HealthHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_rgh2o")
+
+[node name="TextureRect4" type="TextureRect" parent="Camera2D/HealthHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_rgh2o")
+
+[node name="TextureRect5" type="TextureRect" parent="Camera2D/HealthHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_rgh2o")
+
+[node name="TorchHBoxContainer" type="HBoxContainer" parent="Camera2D"]
+offset_left = 283.0
+offset_top = -120.0
+offset_right = 468.0
+offset_bottom = -90.0
+
+[node name="TextureRect1" type="TextureRect" parent="Camera2D/TorchHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_pbw6q")
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/TorchHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_pbw6q")
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/TorchHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_pbw6q")
+
+[node name="TextureRect4" type="TextureRect" parent="Camera2D/TorchHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_pbw6q")
+
+[node name="TextureRect5" type="TextureRect" parent="Camera2D/TorchHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_pbw6q")
+
+[node name="DownButton" type="Button" parent="Camera2D"]
+offset_left = 262.0
+offset_top = 252.0
+offset_right = 292.0
+offset_bottom = 282.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_bmxlf")
+icon = ExtResource("7_50glp")
+
+[node name="UpButton" type="Button" parent="Camera2D"]
+offset_left = 262.0
+offset_top = 214.0
+offset_right = 292.0
+offset_bottom = 244.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_bmxlf")
+icon = ExtResource("6_jw32o")
 
 [connection signal="pressed" from="Camera2D/MoveButton" to="." method="_on_move_button_pressed"]
 [connection signal="pressed" from="Camera2D/SearchButton" to="." method="_on_search_button_pressed"]
 [connection signal="pressed" from="Camera2D/ExploreButton" to="." method="_on_explore_button_pressed"]
+[connection signal="pressed" from="Camera2D/DownButton" to="." method="_on_down_button_pressed"]
+[connection signal="pressed" from="Camera2D/UpButton" to="." method="_on_up_button_pressed"]

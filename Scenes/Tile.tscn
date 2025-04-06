@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bau7lcws8w60e"]
+[gd_scene load_steps=19 format=3 uid="uid://bau7lcws8w60e"]
 
 [ext_resource type="Texture2D" uid="uid://cqpcft8i8vhj6" path="res://Images/tile_accessible.jpg" id="1_iof5j"]
 [ext_resource type="Script" uid="uid://b335orpto7gaq" path="res://Scripts/TileController.gd" id="1_r4md0"]
@@ -9,10 +9,19 @@
 [ext_resource type="Texture2D" uid="uid://bmchrsdg5tety" path="res://Images/tile_base_bottom.png" id="5_6r1mx"]
 [ext_resource type="Texture2D" uid="uid://ch7hcasabgj0v" path="res://Images/tile_base_right.png" id="6_ctyow"]
 [ext_resource type="Texture2D" uid="uid://c66eqbr1edihx" path="res://Images/tile_base_left.png" id="7_5y5lw"]
-[ext_resource type="Texture2D" uid="uid://nr2fmerx6dkk" path="res://Images/tile_highlight.png" id="8_6r1mx"]
+[ext_resource type="Texture2D" uid="uid://bftelx8n2qg1n" path="res://Images/tile_top_closed2.png" id="10_u3p4p"]
+[ext_resource type="Texture2D" uid="uid://cg5n63du0f5kl" path="res://Images/tile_bottom_closed2.png" id="11_u3p4p"]
+[ext_resource type="Texture2D" uid="uid://bpl6jvqks82lw" path="res://Images/tile_top_slope.png" id="12_y2ogq"]
+[ext_resource type="Texture2D" uid="uid://cc5x31m8upgad" path="res://Images/tile_bottom_slope.png" id="13_neton"]
+[ext_resource type="Texture2D" uid="uid://knu5x7vhddl2" path="res://Images/tile_right_closed.png" id="14_y2ogq"]
+[ext_resource type="Texture2D" uid="uid://8pixq8w6umyq" path="res://Images/tile_left_closed.png" id="15_neton"]
+[ext_resource type="Texture2D" uid="uid://4ns2qnuicp7r" path="res://Images/tile_ropes.png" id="16_neton"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4md0"]
 size = Vector2(140, 88)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ctyow"]
+load_path = "res://.godot/imported/tile_highlight.png-6f351fd41efdeeedce7b2b865736d339.ctex"
 
 [node name="Tile" type="Node2D"]
 script = ExtResource("1_r4md0")
@@ -29,6 +38,10 @@ texture = ExtResource("3_ctyow")
 [node name="SpriteAccessible" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("1_iof5j")
+
+[node name="SpriteHighlight" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("CompressedTexture2D_ctyow")
 
 [node name="Explored2D" type="Node2D" parent="."]
 visible = false
@@ -53,6 +66,42 @@ texture = ExtResource("6_ctyow")
 visible = false
 texture = ExtResource("7_5y5lw")
 
-[node name="SpriteHighlight" type="Sprite2D" parent="Explored2D"]
+[node name="SpriteTopClosed" type="Sprite2D" parent="Explored2D"]
 visible = false
-texture = ExtResource("8_6r1mx")
+texture = ExtResource("10_u3p4p")
+
+[node name="SpriteBottomClosed" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("11_u3p4p")
+
+[node name="SpriteTopSlope" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("12_y2ogq")
+
+[node name="SpriteBottomSlope" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("13_neton")
+
+[node name="SpriteTR" type="Sprite2D" parent="Explored2D"]
+texture = ExtResource("13_neton")
+
+[node name="SpriteTL" type="Sprite2D" parent="Explored2D"]
+texture = ExtResource("13_neton")
+
+[node name="SpriteBR" type="Sprite2D" parent="Explored2D"]
+texture = ExtResource("13_neton")
+
+[node name="SpriteBL" type="Sprite2D" parent="Explored2D"]
+texture = ExtResource("13_neton")
+
+[node name="SpriteRightClosed" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("14_y2ogq")
+
+[node name="SpriteLeftClosed" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("15_neton")
+
+[node name="SpriteRopes" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("16_neton")

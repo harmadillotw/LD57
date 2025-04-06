@@ -25,14 +25,15 @@ func populate():
 			instance.position = startLocation
 			instance.id =id
 			instance.tile_clicked.connect(_on_Emitter_tile_clicked)
-			instance.set_id(id)
+			#instance.set_id(id)
 			instance.setExplored(tileStats.explored)
 			instance.setSearched(tileStats.searched)
 			instance.setLeft(tileStats.leftE)
 			instance.setRight(tileStats.rightE)
-			instance.setBottom(tileStats.bottomE)
-			instance.setTop(tileStats.topE)
+			instance.setBottom(id)
+			instance.setTop(id)
 			add_child(instance)
+			instance.set_id(id)
 			Global.tileDictionary[id] = instance
 			id += 1
 			Global.tileCount += 1

@@ -13,7 +13,7 @@ const descText = "The descent before you looks near vertical. The way looks trea
 
 const successText =	"You successfully negotiate the descent but your torch has burned noticeably lower"	
 const failureText =	"A hand hold gives way and you fall to the floor below."
-signal decend_completed()
+signal decend_completed(ropes)
 
 func setup():
 	state = 1
@@ -46,11 +46,11 @@ func _on_button_pressed() -> void:
 			button1.text = "Continue"
 			state = 2
 	else:
-		decend_completed.emit()
+		decend_completed.emit(false)
 		self.set_visible(false)
 
 func _on_button_2_pressed() -> void:
 	Global.player.rope -= 1
-	decend_completed.emit()
+	decend_completed.emit(true)
 	self.set_visible(false)
 	

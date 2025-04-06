@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var textLabel : RichTextLabel = $Panel/RichTextLabel
+@onready var textLabel : RichTextLabel = $Panel/Panel/Panel/RichTextLabel
 @onready var button1 : Button = $Panel/Button1
 @onready var button2 : Button = $Panel/Button2
 
@@ -39,7 +39,7 @@ func populateEvent(newText, eventNum):
 	if Events.EventOptions[eventNum] > 1:
 		button2.set_visible(true)
 	else:
-		button2.set_visible(true)
+		button2.set_visible(false)
 	button1.text = button1Text
 	button2.text = button2Text
 		
