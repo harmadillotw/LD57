@@ -30,6 +30,7 @@ func setup():
 
 ## decend with rope
 func _on_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	if state == 1 :
 		button2.set_visible(false)
 		if randi_range(1,100) > chance:
@@ -50,6 +51,7 @@ func _on_button_pressed() -> void:
 		self.set_visible(false)
 
 func _on_button_2_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	Global.player.rope -= 1
 	decend_completed.emit(true)
 	self.set_visible(false)

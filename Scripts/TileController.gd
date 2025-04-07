@@ -114,3 +114,20 @@ func exploreTile():
 	get_node("Explored2D/SpriteExplored").set_visible(true)	
 	get_node("SpriteUnexplored").set_visible(false)	
 	get_node("SpriteAccessible").set_visible(false)	
+	
+func setBio1(show):
+	get_node("Explored2D/SpriteBio1").set_visible(show)	
+func setBio2(show):
+	get_node("Explored2D/SpriteBio2").set_visible(show)	
+func setLake(show):
+	get_node("Explored2D/SpriteLake").set_visible(show)	
+func setRiver(show):
+	get_node("Explored2D/SpriteRiver").set_visible(show)	
+func setCrev(show):
+	get_node("Explored2D/SpriteCrevasse").set_visible(show)	
+func setPaint(show):
+	get_node("Explored2D/SpritePaint").set_visible(show)	
+func setVines(show):
+	get_node("Explored2D/SpriteVines").set_visible(show)	
+func setSlime(show):
+	get_node("Explored2D/SpriteSlime").set_visible(show)

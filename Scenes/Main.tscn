@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b04jkm5ht1kri"]
+[gd_scene load_steps=16 format=3 uid="uid://b04jkm5ht1kri"]
 
 [ext_resource type="Script" uid="uid://dnded3vnu0mv6" path="res://Scripts/GameController.gd" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://clyq0flge8xkt" path="res://Scenes/EventPanel.tscn" id="2_idj7w"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cal6a5qunt6sp" path="res://Images/torch_full.png" id="5_pbw6q"]
 [ext_resource type="Texture2D" uid="uid://bp6ixcohc8afk" path="res://Images/up.png" id="6_jw32o"]
 [ext_resource type="Texture2D" uid="uid://d4b6o3qr3nm2n" path="res://Images/down.png" id="7_50glp"]
+[ext_resource type="Texture2D" uid="uid://bqc8tclq04a5f" path="res://Images/rope.png" id="8_50glp"]
+[ext_resource type="PackedScene" uid="uid://dkvvbd00qfp4j" path="res://Scenes/ExitPanel.tscn" id="9_vy5pj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbw6q"]
 bg_color = Color(0, 0, 0, 1)
@@ -66,6 +68,16 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_50glp")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vy5pj")
 text = "Explore"
 
+[node name="ExitButton" type="Button" parent="Camera2D"]
+offset_left = 392.0
+offset_top = 229.0
+offset_right = 459.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/disabled = SubResource("StyleBoxFlat_50glp")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vy5pj")
+text = "Exit"
+
 [node name="SeedLabel" type="Label" parent="Camera2D"]
 offset_left = 391.0
 offset_top = 269.0
@@ -81,6 +93,13 @@ offset_right = 394.0
 offset_bottom = -123.0
 text = "Torchs"
 
+[node name="RopeLabel" type="Label" parent="Camera2D"]
+offset_left = 337.0
+offset_top = -77.0
+offset_right = 394.0
+offset_bottom = -54.0
+text = "Torchs"
+
 [node name="HealthLabel" type="Label" parent="Camera2D"]
 offset_left = 339.0
 offset_top = -226.0
@@ -89,10 +108,10 @@ offset_bottom = -203.0
 text = "Health"
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="Camera2D"]
-offset_left = 267.0
-offset_top = -23.0
-offset_right = 461.0
-offset_bottom = 119.0
+offset_left = 270.0
+offset_top = 66.0
+offset_right = 464.0
+offset_bottom = 208.0
 text = "Description"
 
 [node name="EventPanel" parent="Camera2D" instance=ExtResource("2_idj7w")]
@@ -107,10 +126,10 @@ z_index = 1
 position = Vector2(-475, -297)
 
 [node name="Label" type="Label" parent="Camera2D"]
-offset_left = 266.0
-offset_top = -56.0
-offset_right = 360.0
-offset_bottom = -33.0
+offset_left = 269.0
+offset_top = 33.0
+offset_right = 363.0
+offset_bottom = 56.0
 text = "Description:"
 
 [node name="HealthHBoxContainer" type="HBoxContainer" parent="Camera2D"]
@@ -181,8 +200,61 @@ offset_bottom = 244.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_bmxlf")
 icon = ExtResource("6_jw32o")
 
+[node name="RopeGridContainer" type="GridContainer" parent="Camera2D"]
+offset_left = 276.0
+offset_top = -45.0
+offset_right = 460.0
+offset_bottom = 28.0
+columns = 5
+
+[node name="TextureRect1" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect4" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect5" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect6" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect7" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect8" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect9" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="TextureRect10" type="TextureRect" parent="Camera2D/RopeGridContainer"]
+layout_mode = 2
+texture = ExtResource("8_50glp")
+
+[node name="ExitPanel" parent="Camera2D" instance=ExtResource("9_vy5pj")]
+visible = false
+z_index = 2
+position = Vector2(-482, -295)
+
 [connection signal="pressed" from="Camera2D/MoveButton" to="." method="_on_move_button_pressed"]
 [connection signal="pressed" from="Camera2D/SearchButton" to="." method="_on_search_button_pressed"]
 [connection signal="pressed" from="Camera2D/ExploreButton" to="." method="_on_explore_button_pressed"]
+[connection signal="pressed" from="Camera2D/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="Camera2D/DownButton" to="." method="_on_down_button_pressed"]
 [connection signal="pressed" from="Camera2D/UpButton" to="." method="_on_up_button_pressed"]

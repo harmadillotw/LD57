@@ -11,13 +11,15 @@ var button2Pct = 0
 var b1State = 0
 var b2State = 0
 var descriptionText
-signal event_completed()
+signal event_completed(eventId)
 	
 func setText(newText):
 	textLabel.text = newText
 	
 func populateEvent(newText, eventNum):
 	event = eventNum
+	if event > 0:
+		Global.encounterStat += 1
 	descriptionText = newText
 	descText = descriptionText + "\n\n" + Events.EventDesc[event]
 	textLabel.text = descText
@@ -44,6 +46,7 @@ func populateEvent(newText, eventNum):
 	button2.text = button2Text
 		
 func _on_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	#Global.player.health += Global.events[event][0]
 	#Global.player.torches += Global.events[event][4]
 	#Global.player.light += Global.events[event][2]
@@ -51,7 +54,7 @@ func _on_button_pressed() -> void:
 		Global.player.health += Events.EventH1[event]
 		Global.player.torches += Events.EventT1[event]
 		Global.player.light += Events.EventL1[event]
-		event_completed.emit()
+		event_completed.emit(event)
 		self.set_visible(false)
 	elif b1State == 1:
 		var rolled = randi_range(1,100)
@@ -69,11 +72,11 @@ func _on_button_pressed() -> void:
 		button2.set_visible(false)
 		b1State = 2
 	elif b1State == 2:	
-		event_completed.emit()
+		event_completed.emit(event)
 		self.set_visible(false)
 	
 func _on_button_2_pressed() -> void:
-	
+	MasterAudioStreamPlayer.play_fx_click()
 	#Global.player.health += Global.events[event][1]
 	#Global.player.torches += Global.events[event][5]
 	#Global.player.light += Global.events[event][3]
@@ -84,7 +87,7 @@ func _on_button_2_pressed() -> void:
 		Global.player.health += Events.EventH2[event]
 		Global.player.torches += Events.EventT2[event]
 		Global.player.light += Events.EventL2[event]
-		event_completed.emit()
+		event_completed.emit(event)
 		self.set_visible(false)
 	elif b2State == 1:
 		var rolled = randi_range(1,100)
@@ -102,6 +105,6 @@ func _on_button_2_pressed() -> void:
 		button2.set_visible(false)
 		b1State = 2
 	elif b2State == 2:	
-		event_completed.emit()
+		event_completed.emit(event)
 		self.set_visible(false)
 	

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LD57"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="uid://dbcft0nmrt6rh"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,11 +19,13 @@ config/icon="res://icon.svg"
 
 Global="*res://Scripts/Global.gd"
 Events="*res://Scripts/Events.gd"
+MasterAudioStreamPlayer="*res://Scripts/MasterAudioStreamPlayer.gd"
 
 [display]
 
 window/size/viewport_width=960
 window/size/viewport_height=600
+window/stretch/mode="canvas_items"
 
 [input]
 

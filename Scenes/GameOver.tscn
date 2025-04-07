@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://dahr2uqgow2uf"]
+
+[ext_resource type="Script" uid="uid://dkgyebsslshrj" path="res://Scripts/GameOverController.gd" id="1_m5628"]
+[ext_resource type="FontFile" uid="uid://8sb14cf5coaj" path="res://Fonts/AbCave-Oq2O.ttf" id="2_k52d1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qg30o"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k52d1"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5628"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ktc4i"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_m5628")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -62.0
+offset_top = -64.0
+offset_right = 1034.0
+offset_bottom = 666.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qg30o")
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 74.0
+offset_right = 732.0
+offset_bottom = 156.0
+theme_override_fonts/font = ExtResource("2_k52d1")
+theme_override_font_sizes/font_size = 72
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="MainMenuButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 567.0
+offset_right = 608.0
+offset_bottom = 601.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_k52d1")
+text = "Main Menu"
+
+[node name="SeedLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 927.0
+offset_top = 630.0
+offset_right = 1005.0
+offset_bottom = 650.0
+theme_override_font_sizes/font_size = 14
+text = "#1000000"
+
+[node name="Panel" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_left = 207.0
+offset_top = 184.0
+offset_right = 914.0
+offset_bottom = 544.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_m5628")
+
+[node name="Panel" type="Panel" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 7.0
+offset_right = 694.0
+offset_bottom = 350.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ktc4i")
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panel/Panel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 683.0
+offset_bottom = 342.0
+text = "Stats"
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="Panel/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

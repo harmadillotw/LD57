@@ -24,6 +24,7 @@ var torch1Q = preload("res://Images/torch_1q.png")
 
 @onready var eventLabel: Node2D = $Camera2D/EventPanel
 @onready var descendLabel: Node2D = $Camera2D/DescendPanel
+@onready var exitLabel: Node2D = $Camera2D/ExitPanel
 
 @onready var heart1: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect1
 @onready var heart2: TextureRect = $Camera2D/HealthHBoxContainer/TextureRect2
@@ -37,6 +38,27 @@ var torch1Q = preload("res://Images/torch_1q.png")
 @onready var torch4: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect4
 @onready var torch5: TextureRect = $Camera2D/TorchHBoxContainer/TextureRect5
 
+@onready var ropeArray = [$Camera2D/RopeGridContainer/TextureRect1,
+$Camera2D/RopeGridContainer/TextureRect2,
+$Camera2D/RopeGridContainer/TextureRect3,
+$Camera2D/RopeGridContainer/TextureRect4,
+$Camera2D/RopeGridContainer/TextureRect5,
+$Camera2D/RopeGridContainer/TextureRect6,
+$Camera2D/RopeGridContainer/TextureRect7,
+$Camera2D/RopeGridContainer/TextureRect8,
+$Camera2D/RopeGridContainer/TextureRect9,
+$Camera2D/RopeGridContainer/TextureRect10]
+@onready var rope1: TextureRect = $Camera2D/RopeGridContainer/TextureRect1
+@onready var rope2: TextureRect = $Camera2D/RopeGridContainer/TextureRect2
+@onready var rope3: TextureRect = $Camera2D/RopeGridContainer/TextureRect3
+@onready var rope4: TextureRect = $Camera2D/RopeGridContainer/TextureRect4
+@onready var rope5: TextureRect = $Camera2D/RopeGridContainer/TextureRect5
+@onready var rope6: TextureRect = $Camera2D/RopeGridContainer/TextureRect6
+@onready var rope7: TextureRect = $Camera2D/RopeGridContainer/TextureRect7
+@onready var rope8: TextureRect = $Camera2D/RopeGridContainer/TextureRect8
+@onready var rope9: TextureRect = $Camera2D/RopeGridContainer/TextureRect9
+@onready var rope10: TextureRect = $Camera2D/RopeGridContainer/TextureRect10
+
 var previousPlayerTileId
 var playerTileId
 var selectedTile
@@ -44,6 +66,17 @@ var selectedTileStat
 
 
 func _ready() -> void:
+	##clear statts
+	Global.levelStat = 0
+	Global.torchStat = 0
+	Global.exploredStat = 0
+	Global.encounterStat = 0
+	Global.mapStat = 0
+	Global.ropeStat = 0
+	Global.bearStat = 0
+	
+	Global.failReason = 0
+	
 	populateEvents()
 	initialiseGrid()
 	var instance = tileGridScene.instantiate()
@@ -61,17 +94,47 @@ func _ready() -> void:
 	setAccessible(0)
 	updateDescription()
 
+func updateLevel():
+	var level = selectedTile.id / Global.columns
+	if (selectedTile.id % Global.columns) > 0:
+		level += 1
+	Global.levelStat = level
 func _on_Emitter_tile_selected(id):
 	selectedTile = Global.tileDictionary[id]
+	updateLevel()
 	selectedTileStat = Global.tileStatsDictionary[id]
 	updateDescription()
 	updateUI()
 	
-func _on_Event_Complete():
+func _on_Event_Complete(eventNum):
+	if eventNum == 14:
+		Global.bearStat += 1
+	if eventNum == 5:
+		Global.mapStat +=1
+		selectedTile.setSlime(true)
+	if eventNum == 6:
+		Global.mapStat +=1
+		selectedTile.setCrev(true)
+	if eventNum == 7:
+		Global.mapStat +=1
+		selectedTile.setBio1(true)
+	if eventNum == 8:
+		Global.mapStat +=1
+		selectedTile.setBio2(true)
+	if eventNum == 9:
+		Global.mapStat +=1
+		selectedTile.setVines(true)
+	if eventNum == 12:
+		Global.mapStat +=1
+		selectedTile.setCrev(true)
+	if eventNum == 15:
+		Global.mapStat +=1
+		selectedTile.setPaint(true)
 	updateStatus()
 	
 func _on_Descent_Complete(ropes):
 	if ropes:
+		Global.ropeStat += 1
 		selectedTile.setRopes(true)
 	updateStatus()
 	
@@ -138,7 +201,9 @@ func setAccessible(id):
 			Global.tileDictionary[id+Global.columns].setAccessible(true)
 		
 func _on_explore_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	if selectedTile:
+		Global.exploredStat += 1
 		var doDescent = false
 		if (Global.player.location_id > Global.columns) && (Global.player.location_id == (selectedTile.id - Global.columns)):
 			if (Global.tileStatsDictionary[Global.player.location_id].bottomE):
@@ -149,6 +214,13 @@ func _on_explore_button_pressed() -> void:
 			descendLabel.setup()
 			descendLabel.set_visible(true)
 		else:
+			
+			if description == 13:
+				selectedTile.setRiver(true)
+				Global.mapStat +=1
+			if description == 14:
+				selectedTile.setLake(true)
+				Global.mapStat +=1
 			var displayText = Events.Descriptions[description]
 			eventLabel.populateEvent(displayText,Global.tileStatsDictionary[selectedTile.id].event)
 			#eventLabel.setText(displayText)
@@ -170,6 +242,7 @@ func _on_search_button_pressed() -> void:
 
 
 func _on_move_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	if (Global.player.location_id != selectedTile.id):
 		movePlayer()
 		updateDescription()
@@ -212,8 +285,9 @@ func updateDescription():
 		
 func updateLight():
 	Global.player.light -= 1
-	if Global.player.light == 0:
+	if Global.player.light <= 0:
 		Global.player.torches -= 1
+		Global.torchStat += 1
 		Global.player.light = 4
 	updateStatus()
 func updateStatus():
@@ -222,10 +296,17 @@ func updateStatus():
 		#torchLabel.text = "Torches: " + str(Global.player.torches)
 		updateHealth()
 		updateTorch()
+		updateRope()
 		#healthLabel.text = "Health: " + str(Global.player.health)
-	if Global.player.torches == 0:
-		pass
+	if Global.player.torches <= 0:
+		Global.failReason = 1
+		MasterAudioStreamPlayer.play_fx_click()
+		get_tree().change_scene_to_file("res://Scenes/Fail.tscn")
 		#End game
+	if Global.player.health <= 0:
+		Global.failReason = 2
+		MasterAudioStreamPlayer.play_fx_click()
+		get_tree().change_scene_to_file("res://Scenes/Fail.tscn")
 		
 func updateHealth():
 	var health = Global.player.health
@@ -373,11 +454,20 @@ func displayTorchParts(light, torch:TextureRect):
 		3:
 			torch.texture = torch3Q
 			torch.set_visible(true)
+func updateRope():
+	var rope = Global.player.rope
+
+	for n in 10:
+		if n < rope:
+			ropeArray[n].set_visible(true)
+		else:
+			ropeArray[n].set_visible(false)
+			
 ### initialise grid ###
 func initialiseGrid():
 	var rng = RandomNumberGenerator.new()
 	var randSeed = randi() % 1000000
-	#randSeed = 96282
+
 	
 	if Global.gameSeed != 0:
 		randSeed = Global.gameSeed
@@ -519,31 +609,37 @@ func initialiseGrid():
 				newTileStat.explored = false
 				newTileStat.searched = false
 				if (id ==0):
+					newTileStat.reachable = true
 					newTileStat.explored = true
 					newTileStat.searched = true
 					newTileStat.rightE = true
 				elif (id ==1):
+					newTileStat.reachable = true
 					newTileStat.leftE = true
 					newTileStat.rightE = true
 				elif (id ==2):
+					newTileStat.reachable = true
 					newTileStat.leftE = true
 					newTileStat.rightE = true
 				elif (id ==3):
+					newTileStat.reachable = true
 					newTileStat.rightE = true
 					newTileStat.leftE = true
 					newTileStat.bottomSlope = true
 				elif (id ==4):
+					newTileStat.reachable = true
 					newTileStat.explored = false
 					newTileStat.leftE = true
 			## assign descriptions
 			if (id ==0):
 				newTileStat.description = 0
-			if (id ==1):
+			elif (id ==1):
 				newTileStat.description = 1
-			if (id ==2):
+			elif (id ==2):
 				newTileStat.description = 1
 			else:
 				var rolled = rng.randi_range(1,100)
+				newTileStat.description = 1
 				if (i > 20):
 					match rolled:
 						1,2,3,4,5,6,7,8,9,10:
@@ -641,7 +737,43 @@ func initialiseGrid():
 						96,97,98,99,100:
 							newTileStat.description = 14
 			## assign events
-			newTileStat.event = 0
+			var rolled = rng.randi_range(1,100)
+			if rolled > 49:
+				match rolled:
+					50:
+						newTileStat.event = 1
+					51,52,53,54:
+						newTileStat.event = 2
+					55,58,59:
+						newTileStat.event = 3
+					60,61:
+						newTileStat.event = 4
+					62,63,64:
+						newTileStat.event = 5
+					65,66,67:
+						newTileStat.event = 6
+					68,69:
+						newTileStat.event = 7
+					70,71:
+						newTileStat.event = 8
+					72,73:
+						newTileStat.event = 9
+					74,75,76,77,78:
+						newTileStat.event = 10
+					79,80,81,82:
+						newTileStat.event = 11
+					83,84,85,86:
+						newTileStat.event = 12
+					87,88,89,90:
+						newTileStat.event = 15
+					91,92,93,94:
+						newTileStat.event = 16
+					95,96,97:
+						newTileStat.event = 13
+					98,99,100:
+						newTileStat.event = 14
+					
+			
 			
 			## set tiles
 			newTileStat.Tright = rng.randi_range(0,2)
@@ -681,8 +813,15 @@ func populateEvents():
 
 
 func _on_up_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	moveCameraUp()
 
 
 func _on_down_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
 	moveCameraDown()
+
+
+func _on_exit_button_pressed() -> void:
+	MasterAudioStreamPlayer.play_fx_click()
+	exitLabel.set_visible(true)

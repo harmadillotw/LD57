@@ -33,43 +33,46 @@ const EventDesc = ["",
 "A rock shifts under your foot and you fall grazing your arm. Health -1",
 
 "A crevasse blocks your progress. Perhaps it is small enough to jump across.",
-"The cavern contains a nest for large eyeless scorpions. Clear the nest with your torch or sneak around"
+"The cavern contains a nest for large eyeless scorpions. Clear the nest with your torch or sneak around",
+"You see a cave bear prowling the cavern. It has not spotted you yet. Hide amongst  the rocks or take more aggressive action.",
+"Crude depictions  of hunters and animals adorn the wall. Perhaps this was an ancient place of worship or shelter.",
+"Old bones and flint remains tell the tale of ancient visitors."
 ]
 
 const EventH1 = [0,0,0,0,0,0,0,0,0,0
-				,0,-1,-2,0]
+				,0,-1,-2,0,0,0,0]
 const EventH2 = [0,0,0,0,0,0,0,0,0,0
-				,0,0,0,-1]
+				,0,0,0,-1,-4,0,0]
 const EventL1 = [0,0,0,0,1,-1,-2,1,2,0,
-				0,0,0,0]
+				0,0,0,0,0,0,0]
 const EventL2 = [0,0,0,0,0,0,0,0,0,0
-				,0,0,-1,0]
+				,0,0,-1,0,0,0,0]
 const EventT1 = [0,1,2,3,0,0,0,0,0,0
-				,0,0,0,-1]
+				,0,0,0,-1,-1,0,0]
 const EventT2 = [0,0,0,0,0,0,0,0,0,0
-				,0,0,0,0]
+				,0,0,0,0,0,0,0]
 const EventR1 = [0,0,0,0,0,0,0,0,0,0
-				,1,0,0,0]
+				,1,0,0,0,0,0,0]
 const EventR2 = [0,0,0,0,0,0,0,0,0,0
-				,0,0,0,0]
+				,0,0,0,0,0,0,0]
 const EventOptions = [1,1,1,1,1,1,1,1,1,1
-				,1,1,1,2]
+				,1,1,2,2,2,0,0]
 const EventOpt1 = ["Continue","Continue","Continue","Continue","Continue","Continue","Continue","Continue","Continue","Continue",
-					"Continue","Continue", "Jump", "Clear the nest. -1 torch"]
+					"Continue","Continue", "Jump", "Clear the nest. -1 torch", "Quicky Hide from the bear. -1 torch","Continue","Continue"]
 const EventOpt2 = ["","","","","","","","","","",
-					"","","Go Around. -1 light", "Sneak around"]
+					"","","Go Around. -1 light", "Sneak around", "Attack the bear","",""]
 const Percent1 = [0,0,0,0,0,0,0,0,0,0,
-					0,0,1,0]
+					0,0,1,0,0,0,0]
 const Percent2 = [0,0,0,0,0,0,0,0,0,0
-,0,0,0,1]
+,0,0,0,1,1,0,0]
 const SResult1 = ["","","","","","","","","","",
-				"","","You clear the crevasse without trouble",""]
+				"","","You clear the crevasse without trouble","","","",""]
 const SResult2 = ["","","","","","","","","","",
-				"","","","You sucessfully sneak around the scorpion nest"]
+				"","","","You sucessfully sneak around the scorpion nest","You wave your torch in the bear's face. It growls angrily  but retreats","",""]
 const FResult1 = ["","","","","","","","","","",
-				"","","You misjudge the jump and just catch the lip. You drag yourself up but are left bruised",""]
+				"","","You misjudge the jump and just catch the lip. You drag yourself up but are left bruised","","","",""]
 const FResult2 = ["","","","","","","","","","",
-				"","","","Your were too noisy and are bitten by the scorpions. -1 health"]
+				"","","","Your were too noisy and are bitten by the scorpions. -1 health","The bear roars and attacks. It's claws swipe you viciously before you can make your escape","",""]
 #explore events
 #waterfall
 #lake

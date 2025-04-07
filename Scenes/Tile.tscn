@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bau7lcws8w60e"]
+[gd_scene load_steps=26 format=3 uid="uid://bau7lcws8w60e"]
 
 [ext_resource type="Texture2D" uid="uid://cqpcft8i8vhj6" path="res://Images/tile_accessible.jpg" id="1_iof5j"]
 [ext_resource type="Script" uid="uid://b335orpto7gaq" path="res://Scripts/TileController.gd" id="1_r4md0"]
@@ -16,6 +16,13 @@
 [ext_resource type="Texture2D" uid="uid://knu5x7vhddl2" path="res://Images/tile_right_closed.png" id="14_y2ogq"]
 [ext_resource type="Texture2D" uid="uid://8pixq8w6umyq" path="res://Images/tile_left_closed.png" id="15_neton"]
 [ext_resource type="Texture2D" uid="uid://4ns2qnuicp7r" path="res://Images/tile_ropes.png" id="16_neton"]
+[ext_resource type="Texture2D" uid="uid://hi4fbrp8xqin" path="res://Images/bio2.png" id="17_afp4t"]
+[ext_resource type="Texture2D" uid="uid://tr4rcuxxhm4u" path="res://Images/lake.png" id="18_imfh6"]
+[ext_resource type="Texture2D" uid="uid://bg7pdw4sq2pi0" path="res://Images/river.png" id="19_jn1er"]
+[ext_resource type="Texture2D" uid="uid://uaakp5amk04c" path="res://Images/crevasse.png" id="20_imfh6"]
+[ext_resource type="Texture2D" uid="uid://dpii5xa6es60w" path="res://Images/paint.png" id="21_jn1er"]
+[ext_resource type="Texture2D" uid="uid://dxfmc24xkq330" path="res://Images/vines.png" id="22_iavu2"]
+[ext_resource type="Texture2D" uid="uid://cxo5j3lusdkui" path="res://Images/slime.png" id="23_yilci"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4md0"]
 size = Vector2(140, 88)
@@ -105,3 +112,35 @@ texture = ExtResource("15_neton")
 [node name="SpriteRopes" type="Sprite2D" parent="Explored2D"]
 visible = false
 texture = ExtResource("16_neton")
+
+[node name="SpriteBio1" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("16_neton")
+
+[node name="SpriteBio2" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("17_afp4t")
+
+[node name="SpriteLake" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("18_imfh6")
+
+[node name="SpriteRiver" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("19_jn1er")
+
+[node name="SpriteCrevasse" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("20_imfh6")
+
+[node name="SpritePaint" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("21_jn1er")
+
+[node name="SpriteVines" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("22_iavu2")
+
+[node name="SpriteSlime" type="Sprite2D" parent="Explored2D"]
+visible = false
+texture = ExtResource("23_yilci")

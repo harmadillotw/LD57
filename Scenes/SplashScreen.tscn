@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbcft0nmrt6rh"]
+
+[ext_resource type="Script" uid="uid://bldwr7l2t8v6g" path="res://Scripts/SplashScreenController.gd" id="1_7m5qv"]
+[ext_resource type="FontFile" uid="uid://8sb14cf5coaj" path="res://Fonts/AbCave-Oq2O.ttf" id="2_ki8ww"]
+[ext_resource type="Texture2D" uid="uid://cpdlgoedufa7v" path="res://Images/cave2.png" id="3_mm423"]
+[ext_resource type="FontFile" uid="uid://dl41eknerpcmm" path="res://Fonts/AgreementSignature-qZX6x.ttf" id="4_nh1li"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpken"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="SplashScreen" type="Node2D"]
+script = ExtResource("1_7m5qv")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -53.0
+offset_top = -37.0
+offset_right = 1003.0
+offset_bottom = 658.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_mpken")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 72.0
+offset_right = 596.0
+offset_bottom = 171.0
+theme_override_fonts/font = ExtResource("2_ki8ww")
+theme_override_font_sizes/font_size = 96
+text = "Caver"
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 184.0
+offset_right = 513.0
+offset_bottom = 484.0
+texture = ExtResource("3_mm423")
+
+[node name="Label2" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 859.0
+offset_top = 594.0
+offset_right = 988.0
+offset_bottom = 630.0
+theme_override_fonts/font = ExtResource("4_nh1li")
+theme_override_font_sizes/font_size = 28
+text = "By Harmadillo"

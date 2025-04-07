@@ -14,7 +14,7 @@ signal tile_selected(id)
 func populate():
 	print("populating grid")
 	var id = 0
-	
+	Global.tileCount = 0
 	for i in Global.rows:
 		for j in Global.columns:
 			var tileStats = Global.tileStatsDictionary[id]
