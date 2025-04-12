@@ -98,7 +98,7 @@ offset_left = 337.0
 offset_top = -77.0
 offset_right = 394.0
 offset_bottom = -54.0
-text = "Torchs"
+text = "Rope"
 
 [node name="HealthLabel" type="Label" parent="Camera2D"]
 offset_left = 339.0
