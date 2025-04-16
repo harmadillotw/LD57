@@ -73,7 +73,17 @@ const FResult1 = ["","","","","","","","","","",
 				"","","You misjudge the jump and just catch the lip. You drag yourself up but are left bruised","","","",""]
 const FResult2 = ["","","","","","","","","","",
 				"","","","Your were too noisy and are bitten by the scorpions. -1 health","The bear roars and attacks. It's claws swipe you viciously before you can make your escape","",""]
+
+# Mine levels
+
+# Differnt light sources - miners helmet.
+
+# What timezone/tech level are we in?
+
 #explore events
+# Do some band specific events
+	# mine, crystals, lava etc.
+
 #waterfall
 #lake
 #crystal cave
